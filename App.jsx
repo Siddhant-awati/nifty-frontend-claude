@@ -24,7 +24,7 @@ const App = () => {
   const sensexChain = getOptionChainData("SENSEX");
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc" }}>
+    <div className="app-container">
       <Header
         connected={connected}
         mode={mode}
@@ -35,26 +35,9 @@ const App = () => {
 
       {/* Connection Error Banner */}
       {!connected && connectionError && (
-        <div
-          style={{
-            background: "#fef2f2",
-            padding: "16px 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "16px",
-            borderBottom: "2px solid #fecaca",
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div
-              style={{
-                background: "#fee2e2",
-                padding: "8px",
-                borderRadius: "8px",
-              }}
-            >
+        <div className="error-banner">
+          <div className="error-content">
+            <div className="error-icon">
               <svg
                 width="24"
                 height="24"
@@ -69,19 +52,8 @@ const App = () => {
               </svg>
             </div>
             <div>
-              <div
-                style={{
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  color: "#dc2626",
-                  marginBottom: "2px",
-                }}
-              >
-                Connection Failed
-              </div>
-              <div style={{ fontSize: "13px", color: "#991b1b" }}>
-                {connectionError}
-              </div>
+              <div className="error-title">Connection Failed</div>
+              <div className="error-message">{connectionError}</div>
             </div>
           </div>
           <button
@@ -91,53 +63,23 @@ const App = () => {
                 "_blank"
               )
             }
-            style={{
-              padding: "10px 20px",
-              background: "#dc2626",
-              color: "#fff",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: "600",
-              fontSize: "14px",
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(220, 38, 38, 0.3)",
-              whiteSpace: "nowrap",
-            }}
+            className="error-action-btn"
           >
             Login to Backend
           </button>
         </div>
       )}
 
-      <div
-        style={{
-          padding: "20px",
-          maxWidth: "1400px",
-          margin: "0 auto",
-        }}
-      >
+      <div className="main-content">
         {/* Indices Section */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "16px",
-            marginBottom: "24px",
-          }}
-        >
+        <div className="indices-grid">
           <IndexCard data={niftyData} />
           <IndexCard data={bankniftyData} />
           <IndexCard data={sensexData} />
         </div>
 
         {/* Option Chains Section */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-          }}
-        >
+        <div className="option-chains">
           <OptionChainTable
             indexName="NIFTY"
             chainData={niftyChain}

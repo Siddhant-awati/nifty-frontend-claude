@@ -5,23 +5,8 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
     window.open("https://nifty-backend-claude.onrender.com/login", "_blank");
   };
 
-  const getSignalColor = (signal) => {
-    switch (signal) {
-      case "BULL":
-        return "#10b981";
-      case "BEAR":
-        return "#ef4444";
-      case "PAUSED":
-        return "#f59e0b";
-      default:
-        return "#94a3b8";
-    }
-  };
-
   const renderIndexSignals = (indexName) => {
     const index = indices[indexName];
-    const indexSignal = index?.signal || "-";
-    const indexColor = getSignalColor(indexSignal);
 
     // Count options for this index
     const indexOptions = Object.values(options).filter(
@@ -35,57 +20,19 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
     };
 
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          padding: "8px 12px",
-          background: "#f8fafc",
-          borderRadius: "8px",
-          border: "1px solid #e2e8f0",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "13px",
-            fontWeight: "600",
-            color: "#475569",
-          }}
-        >
-          {indexName}:
-        </span>
-        <div style={{ display: "flex", gap: "4px" }}>
+      <div className="signal-card">
+        <span className="signal-label">{indexName}:</span>
+        <div className="signal-badges">
           {["BULL", "BEAR", "PAUSED"].map((type) => {
             const isActive = counts[type] > 0;
-            const color = getSignalColor(type);
+            const badgeClass = isActive
+              ? `signal-badge active-${type.toLowerCase()}`
+              : "signal-badge inactive";
+
             return (
-              <div
-                key={type}
-                style={{
-                  padding: "3px 8px",
-                  borderRadius: "4px",
-                  fontSize: "11px",
-                  fontWeight: "600",
-                  background: isActive ? color : "#f1f5f9",
-                  color: isActive ? "#fff" : "#cbd5e1",
-                  border: `1.5px solid ${isActive ? color : "#e2e8f0"}`,
-                  transition: "all 0.2s",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
+              <div key={type} className={badgeClass}>
                 <span>{type}</span>
-                <span
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    opacity: isActive ? 1 : 0.6,
-                  }}
-                >
-                  ({counts[type]})
-                </span>
+                <span className="signal-count">({counts[type]})</span>
               </div>
             );
           })}
@@ -95,68 +42,21 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
   };
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        borderBottom: "2px solid #e2e8f0",
-        padding: "16px 20px",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      {/* Mobile Layout */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-        }}
-      >
+    <div className="header">
+      <div className="header-content">
         {/* Top Row: Title and Connection */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "12px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div
-              style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                padding: "10px",
-                borderRadius: "10px",
-              }}
-            >
+        <div className="header-top">
+          <div className="header-brand">
+            <div className="brand-icon">
               <Activity size={24} color="#fff" />
             </div>
-            <div>
-              <h1
-                style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  color: "#0f172a",
-                  marginBottom: "2px",
-                }}
-              >
-                Trading Dashboard
-              </h1>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#64748b",
-                  display: "flex",
-                  gap: "12px",
-                  alignItems: "center",
-                }}
-              >
+            <div className="brand-info">
+              <h1>Trading Dashboard</h1>
+              <div className="brand-meta">
                 <span>
                   Mode:{" "}
                   <strong
-                    style={{
-                      color: mode === "LIVE" ? "#10b981" : "#f59e0b",
-                    }}
+                    className={mode === "LIVE" ? "mode-live" : "mode-test"}
                   >
                     {mode || "-"}
                   </strong>
@@ -169,65 +69,25 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <button
-              onClick={handleLogin}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 16px",
-                background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                border: "none",
-                borderRadius: "8px",
-                color: "#fff",
-                fontWeight: "600",
-                fontSize: "13px",
-                cursor: "pointer",
-                boxShadow: "0 2px 8px rgba(59, 130, 246, 0.3)",
-              }}
-            >
+          <div className="header-actions">
+            <button onClick={handleLogin} className="login-btn">
               <LogIn size={16} />
               <span>Login</span>
             </button>
 
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 12px",
-                background: connected ? "#ecfdf5" : "#fef2f2",
-                borderRadius: "8px",
-                border: `2px solid ${connected ? "#10b981" : "#ef4444"}`,
-              }}
+              className={`connection-status ${
+                connected ? "connected" : "disconnected"
+              }`}
             >
-              {connected ? (
-                <Wifi size={16} color="#10b981" />
-              ) : (
-                <WifiOff size={16} color="#ef4444" />
-              )}
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: connected ? "#10b981" : "#ef4444",
-                  fontWeight: "600",
-                }}
-              >
-                {connected ? "Connected" : "Disconnected"}
-              </span>
+              {connected ? <Wifi size={16} /> : <WifiOff size={16} />}
+              <span>{connected ? "Connected" : "Disconnected"}</span>
             </div>
           </div>
         </div>
 
         {/* Signals Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "10px",
-          }}
-        >
+        <div className="signals-grid">
           {renderIndexSignals("NIFTY")}
           {renderIndexSignals("SENSEX")}
           {renderIndexSignals("BANKNIFTY")}

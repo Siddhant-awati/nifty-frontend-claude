@@ -1,80 +1,45 @@
-const getSignalColor = (signal) => {
-  switch (signal) {
-    case "BULL":
-      return "#10b981";
-    case "BEAR":
-      return "#ef4444";
-    case "PAUSED":
-      return "#f59e0b";
-    default:
-      return "#64748b";
-  }
-};
-
 const OptionCell = ({ data, type }) => {
   if (!data) {
-    return (
-      <td
-        style={{
-          padding: "12px",
-          textAlign: "center",
-          color: "#94a3b8",
-          background: "#fafafa",
-        }}
-      >
-        -
-      </td>
-    );
+    return <td className="cell-empty">-</td>;
   }
 
-  const signalColor = getSignalColor(data.signal);
+  const getSignalClass = (signal) => {
+    switch (signal) {
+      case "BULL":
+        return "option-signal-bull";
+      case "BEAR":
+        return "option-signal-bear";
+      case "PAUSED":
+        return "option-signal-paused";
+      default:
+        return "option-signal-default";
+    }
+  };
 
-  // Background based on signal
-  let cellBackground = "#fff";
-  if (data.signal === "BULL") {
-    cellBackground = "#f0fdf4"; // light green
-  } else if (data.signal === "BEAR") {
-    cellBackground = "#fef2f2"; // light red
-  } else if (data.signal === "PAUSED") {
-    cellBackground = "#fffbeb"; // light amber
-  }
+  const getCellBackgroundClass = (signal) => {
+    switch (signal) {
+      case "BULL":
+        return "cell-bull";
+      case "BEAR":
+        return "cell-bear";
+      case "PAUSED":
+        return "cell-paused";
+      default:
+        return "";
+    }
+  };
+
+  const signalClass = getSignalClass(data.signal);
+  const cellClass = `option-cell ${
+    type === "call" ? "cell-call" : "cell-put"
+  } ${getCellBackgroundClass(data.signal)}`;
 
   return (
-    <td
-      style={{
-        padding: "12px 16px",
-        borderLeft: type === "call" ? "2px solid #e2e8f0" : "none",
-        borderRight: type === "put" ? "2px solid #e2e8f0" : "none",
-        background: cellBackground,
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          <span
-            style={{ fontSize: "16px", fontWeight: "bold", color: "#0f172a" }}
-          >
-            {data.ltp?.toFixed(2)}
-          </span>
-          <span
-            style={{
-              fontSize: "10px",
-              fontWeight: "bold",
-              color: signalColor,
-              padding: "3px 8px",
-              borderRadius: "4px",
-              background: `${signalColor}20`,
-              border: `1px solid ${signalColor}`,
-              textTransform: "uppercase",
-              letterSpacing: "0.3px",
-            }}
-          >
+    <td className={cellClass}>
+      <div className="option-content">
+        <div className="option-row">
+          <span className="option-ltp">{data.ltp?.toFixed(2)}</span>
+          <span className={`option-signal-badge ${signalClass}`}>
             {data.signal}
           </span>
         </div>
@@ -86,24 +51,10 @@ const OptionCell = ({ data, type }) => {
 const OptionChainTable = ({ indexName, chainData, indexData }) => {
   if (!chainData || chainData.length === 0) {
     return (
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "12px",
-          padding: "40px",
-          textAlign: "center",
-          color: "#64748b",
-          border: "2px solid #e2e8f0",
-        }}
-      >
-        <div
-          style={{ fontSize: "15px", marginBottom: "6px", fontWeight: "600" }}
-        >
-          Loading {indexName} options...
-        </div>
-        <div style={{ fontSize: "12px", color: "#94a3b8" }}>
-          Waiting for data...
-        </div>
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <div className="loading-title">Loading {indexName} options...</div>
+        <div className="loading-subtitle">Waiting for data...</div>
       </div>
     );
   }
@@ -114,122 +65,32 @@ const OptionChainTable = ({ indexName, chainData, indexData }) => {
     : null;
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: "12px",
-        overflow: "hidden",
-        border: "2px solid #e2e8f0",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <div
-        style={{
-          background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-          padding: "16px 20px",
-          borderBottom: "2px solid #e2e8f0",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "18px",
-            fontWeight: "bold",
-            color: "#fff",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            flexWrap: "wrap",
-          }}
-        >
+    <div className="option-chain-container">
+      <div className="option-chain-header">
+        <h3 className="option-chain-title">
           <span>{indexName} Options</span>
-          {indexData && (
-            <span style={{ fontSize: "14px", opacity: 0.9 }}>
-              Spot: {indexData.ltp?.toFixed(2)}
-            </span>
-          )}
         </h3>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: "14px",
-          }}
-        >
+      <div className="option-chain-table-wrapper">
+        <table className="option-chain-table">
           <thead>
-            <tr style={{ background: "#f8fafc" }}>
-              <th
-                style={{
-                  padding: "14px",
-                  textAlign: "center",
-                  fontWeight: "700",
-                  color: "#10b981",
-                  borderRight: "2px solid #e2e8f0",
-                  fontSize: "14px",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                }}
-              >
-                CALL
-              </th>
-              <th
-                style={{
-                  padding: "14px",
-                  textAlign: "center",
-                  fontWeight: "700",
-                  color: "#3b82f6",
-                  background: "#fff",
-                  fontSize: "14px",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                }}
-              >
-                STRIKE
-              </th>
-              <th
-                style={{
-                  padding: "14px",
-                  textAlign: "center",
-                  fontWeight: "700",
-                  color: "#ef4444",
-                  borderLeft: "2px solid #e2e8f0",
-                  fontSize: "14px",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                }}
-              >
-                PUT
-              </th>
+            <tr>
+              <th className="th-call">CALL</th>
+              <th className="th-strike">STRIKE</th>
+              <th className="th-put">PUT</th>
             </tr>
           </thead>
           <tbody>
             {chainData.map((row, idx) => {
               const isATM = row.strike === atmStrike;
+              const rowClass = isATM ? "row-atm" : "";
+
               return (
-                <tr
-                  key={row.strike}
-                  style={{
-                    borderBottom: "1px solid #f1f5f9",
-                    background: isATM
-                      ? "#dbeafe"
-                      : idx % 2 === 0
-                      ? "#fff"
-                      : "#fafafa",
-                  }}
-                >
+                <tr key={row.strike} className={rowClass}>
                   <OptionCell data={row.call} type="call" />
                   <td
-                    style={{
-                      padding: "14px",
-                      textAlign: "center",
-                      fontWeight: isATM ? "bold" : "600",
-                      fontSize: isATM ? "17px" : "15px",
-                      color: isATM ? "#3b82f6" : "#0f172a",
-                      background: isATM ? "#bfdbfe" : "#fff",
-                      border: isATM ? "2px solid #3b82f6" : "none",
-                    }}
+                    className={isATM ? "strike-cell strike-atm" : "strike-cell"}
                   >
                     {row.strike}
                   </td>
