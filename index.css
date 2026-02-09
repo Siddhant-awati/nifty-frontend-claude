@@ -394,7 +394,7 @@ body {
 /* Main Content */
 .main-content {
   padding: 20px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -474,10 +474,10 @@ body {
   color: var(--neutral);
 }
 
-/* Option Chain Section */
-.option-chains {
-  display: flex;
-  flex-direction: column;
+/* Option Chain Section - Three Column Layout on Large Screens */
+.option-chains-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -493,12 +493,12 @@ body {
 
 .option-chain-header {
   background: var(--primary-gradient);
-  padding: 16px 20px;
+  padding: 14px 16px;
   border-bottom: 2px solid var(--border-light);
 }
 
 .option-chain-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff;
   display: flex;
@@ -520,7 +520,7 @@ body {
 .option-chain-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .option-chain-table thead {
@@ -531,12 +531,12 @@ body {
 }
 
 .option-chain-table th {
-  padding: 14px;
+  padding: 12px 8px;
   text-align: center;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   font-family: monospace;
 }
 
@@ -569,7 +569,7 @@ body {
 }
 
 .option-cell {
-  padding: 12px 16px;
+  padding: 10px 12px;
 }
 
 .cell-call {
@@ -613,7 +613,7 @@ body {
 }
 
 .option-ltp {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-primary);
 }
 
@@ -652,10 +652,10 @@ body {
 }
 
 .strike-cell {
-  padding: 14px;
+  padding: 12px 8px;
   text-align: center;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-primary);
   background: var(--bg-secondary);
 }
@@ -703,9 +703,21 @@ body {
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  /* Tablet view - 2 columns */
+  .option-chains-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   body {
     font-size: 14px;
+  }
+
+  /* Stack tables on mobile */
+  .option-chains-grid {
+    grid-template-columns: 1fr;
   }
 
   .header {

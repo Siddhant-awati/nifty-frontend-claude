@@ -79,7 +79,7 @@ const App = () => {
         </div>
 
         {/* Option Chains Section */}
-        <div className="option-chains">
+        <div className="option-chains-grid">
           <OptionChainTable
             indexName="NIFTY"
             chainData={niftyChain}

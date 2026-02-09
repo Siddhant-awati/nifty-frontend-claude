@@ -89,8 +89,8 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
         {/* Signals Grid */}
         <div className="signals-grid">
           {renderIndexSignals("NIFTY")}
-          {renderIndexSignals("SENSEX")}
           {renderIndexSignals("BANKNIFTY")}
+          {renderIndexSignals("SENSEX")}
         </div>
       </div>
     </div>
