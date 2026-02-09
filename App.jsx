@@ -9,10 +9,10 @@ const App = () => {
     mode,
     messageCount,
     indices,
+    options,
     connectionError,
     getIndexData,
     getOptionChainData,
-    getAllOptions,
   } = useWebSocket("wss://nifty-backend-claude.onrender.com");
 
   const niftyData = getIndexData("NIFTY");
@@ -23,78 +23,34 @@ const App = () => {
   const bankniftyChain = getOptionChainData("BANKNIFTY");
   const sensexChain = getOptionChainData("SENSEX");
 
-  const allOptions = getAllOptions();
-
-  // DEBUG: Log the actual data to console
-  if (niftyData && messageCount % 10 === 1) {
-    // Log every 10 messages to avoid spam
-    console.log("=== NIFTY INDEX DATA ===");
-    console.log("LTP:", niftyData.ltp);
-    console.log("EMA High:", niftyData.ema?.high);
-    console.log("EMA Low:", niftyData.ema?.low);
-    console.log("Supertrend:", niftyData.supertrend);
-    console.log("Signal:", niftyData.signal);
-    console.log("Signal Logic Check:");
-    console.log("  LTP > EMA High?", niftyData.ltp > niftyData.ema?.high);
-    console.log("  LTP < EMA Low?", niftyData.ltp < niftyData.ema?.low);
-    console.log("  LTP > Supertrend?", niftyData.ltp > niftyData.supertrend);
-    console.log("  LTP < Supertrend?", niftyData.ltp < niftyData.supertrend);
-    console.log("Full data:", niftyData);
-  }
-
-  // DEBUG: Log sample option data
-  if (niftyChain.length > 0 && messageCount % 10 === 1) {
-    const sampleCall = niftyChain[0]?.call;
-    if (sampleCall) {
-      console.log("=== SAMPLE CALL OPTION ===");
-      console.log("Symbol:", sampleCall.symbol);
-      console.log("LTP:", sampleCall.ltp);
-      console.log("EMA Close:", sampleCall.ema?.close);
-      console.log("Supertrend:", sampleCall.supertrend);
-      console.log("Signal:", sampleCall.signal);
-      console.log("Signal Logic Check:");
-      console.log("  LTP > EMA?", sampleCall.ltp > sampleCall.ema?.close);
-      console.log("  LTP < EMA?", sampleCall.ltp < sampleCall.ema?.close);
-      console.log(
-        "  LTP > Supertrend?",
-        sampleCall.ltp > sampleCall.supertrend
-      );
-      console.log(
-        "  LTP < Supertrend?",
-        sampleCall.ltp < sampleCall.supertrend
-      );
-      console.log("Full data:", sampleCall);
-    }
-  }
-
   return (
-    <div style={{ minHeight: "100vh", background: "#020617" }}>
+    <div style={{ minHeight: "100vh", background: "#f8fafc" }}>
       <Header
         connected={connected}
         mode={mode}
         messageCount={messageCount}
         indices={indices}
-        options={allOptions}
+        options={options}
       />
 
       {/* Connection Error Banner */}
       {!connected && connectionError && (
         <div
           style={{
-            background: "linear-gradient(135deg, #dc2626 0%, #991b1b 100%)",
-            padding: "16px 32px",
+            background: "#fef2f2",
+            padding: "16px 20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: "16px",
-            borderBottom: "2px solid #7f1d1d",
-            boxShadow: "0 4px 6px rgba(220, 38, 38, 0.3)",
+            borderBottom: "2px solid #fecaca",
+            flexWrap: "wrap",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div
               style={{
-                background: "rgba(255, 255, 255, 0.2)",
+                background: "#fee2e2",
                 padding: "8px",
                 borderRadius: "8px",
               }}
@@ -104,7 +60,7 @@ const App = () => {
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#fff"
+                stroke="#dc2626"
                 strokeWidth="2"
               >
                 <circle cx="12" cy="12" r="10" />
@@ -115,15 +71,15 @@ const App = () => {
             <div>
               <div
                 style={{
-                  fontSize: "16px",
+                  fontSize: "15px",
                   fontWeight: "bold",
-                  color: "#fff",
+                  color: "#dc2626",
                   marginBottom: "2px",
                 }}
               >
                 Connection Failed
               </div>
-              <div style={{ fontSize: "13px", color: "#fecaca" }}>
+              <div style={{ fontSize: "13px", color: "#991b1b" }}>
                 {connectionError}
               </div>
             </div>
@@ -136,15 +92,15 @@ const App = () => {
               )
             }
             style={{
-              padding: "10px 24px",
-              background: "#fff",
-              color: "#dc2626",
+              padding: "10px 20px",
+              background: "#dc2626",
+              color: "#fff",
               border: "none",
               borderRadius: "8px",
               fontWeight: "600",
               fontSize: "14px",
               cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+              boxShadow: "0 2px 8px rgba(220, 38, 38, 0.3)",
               whiteSpace: "nowrap",
             }}
           >
@@ -153,14 +109,20 @@ const App = () => {
         </div>
       )}
 
-      <div style={{ padding: "24px", maxWidth: "1920px", margin: "0 auto" }}>
+      <div
+        style={{
+          padding: "20px",
+          maxWidth: "1400px",
+          margin: "0 auto",
+        }}
+      >
         {/* Indices Section */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "20px",
-            marginBottom: "32px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "16px",
+            marginBottom: "24px",
           }}
         >
           <IndexCard data={niftyData} />
@@ -173,7 +135,7 @@ const App = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "24px",
+            gap: "20px",
           }}
         >
           <OptionChainTable
