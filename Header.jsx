@@ -32,29 +32,25 @@ const Header = ({
       (opt) => opt.name === indexName
     );
 
-    // Calculate counts for Supertrend
+    // Calculate counts for Supertrend (ignore backend signal, calculate based on indicators)
     const supertrendCounts = {
-      BULL: indexOptions.filter((opt) => {
-        if (opt.signal === "PAUSED") return false;
-        return calculateSignal(opt, "supertrend") === "BULL";
-      }).length,
-      BEAR: indexOptions.filter((opt) => {
-        if (opt.signal === "PAUSED") return false;
-        return calculateSignal(opt, "supertrend") === "BEAR";
-      }).length,
+      BULL: indexOptions.filter(
+        (opt) => calculateSignal(opt, "supertrend") === "BULL"
+      ).length,
+      BEAR: indexOptions.filter(
+        (opt) => calculateSignal(opt, "supertrend") === "BEAR"
+      ).length,
       PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
     };
 
-    // Calculate counts for EMA50
+    // Calculate counts for EMA50 (ignore backend signal, calculate based on indicators)
     const ema50Counts = {
-      BULL: indexOptions.filter((opt) => {
-        if (opt.signal === "PAUSED") return false;
-        return calculateSignal(opt, "ema50") === "BULL";
-      }).length,
-      BEAR: indexOptions.filter((opt) => {
-        if (opt.signal === "PAUSED") return false;
-        return calculateSignal(opt, "ema50") === "BEAR";
-      }).length,
+      BULL: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema50") === "BULL"
+      ).length,
+      BEAR: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema50") === "BEAR"
+      ).length,
       PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
     };
 
