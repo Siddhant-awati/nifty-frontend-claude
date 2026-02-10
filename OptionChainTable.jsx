@@ -68,7 +68,9 @@ const OptionChainTable = ({ indexName, chainData, indexData }) => {
     <div className="option-chain-container">
       <div className="option-chain-header">
         <h3 className="option-chain-title">
-          <span>{indexName} Options</span>
+          <span>
+            {indexName} Options : {indexData.ltp}
+          </span>
         </h3>
       </div>
 

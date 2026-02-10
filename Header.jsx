@@ -60,7 +60,7 @@ const Header = ({
 
         {/* Supertrend Row */}
         <div className="signal-row">
-          <span className="signal-indicator">ST:</span>
+          <span className="signal-indicator">SUPERTREND:</span>
           <div className="signal-badges">
             {["BULL", "BEAR", "PAUSED"].map((type) => {
               const count = supertrendCounts[type];
@@ -81,7 +81,7 @@ const Header = ({
 
         {/* EMA50 Row */}
         <div className="signal-row">
-          <span className="signal-indicator">EMA:</span>
+          <span className="signal-indicator">EMA50:</span>
           <div className="signal-badges">
             {["BULL", "BEAR", "PAUSED"].map((type) => {
               const count = ema50Counts[type];

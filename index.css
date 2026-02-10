@@ -894,10 +894,12 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
+  width: 85%;
 }
 
 .signal-indicator {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   min-width: 35px;
 }
