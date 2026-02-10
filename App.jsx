@@ -1,4 +1,4 @@
-import { useWebSocket } from "./useWebSocket";
+import { useRestAPI } from "./useRestAPI";
 import Header from "./Header";
 import IndexCard from "./IndexCard";
 import OptionChainTable from "./OptionChainTable";
@@ -11,9 +11,11 @@ const App = () => {
     indices,
     options,
     connectionError,
+    lastUpdate,
     getIndexData,
     getOptionChainData,
-  } = useWebSocket("wss://nifty-backend-claude.onrender.com");
+    refreshData,
+  } = useRestAPI();
 
   const niftyData = getIndexData("NIFTY");
   const bankniftyData = getIndexData("BANKNIFTY");
@@ -31,6 +33,8 @@ const App = () => {
         messageCount={messageCount}
         indices={indices}
         options={options}
+        lastUpdate={lastUpdate}
+        onRefresh={refreshData}
       />
 
       {/* Connection Error Banner */}

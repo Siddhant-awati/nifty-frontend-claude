@@ -1,6 +1,14 @@
-import { Activity, Wifi, WifiOff, LogIn } from "lucide-react";
+import { Activity, Wifi, WifiOff, LogIn, RefreshCw } from "lucide-react";
 
-const Header = ({ connected, mode, messageCount, indices, options }) => {
+const Header = ({
+  connected,
+  mode,
+  messageCount,
+  indices,
+  options,
+  lastUpdate,
+  onRefresh,
+}) => {
   const handleLogin = () => {
     window.open("https://nifty-backend-claude.onrender.com/login", "_blank");
   };
@@ -63,13 +71,30 @@ const Header = ({ connected, mode, messageCount, indices, options }) => {
                 </span>
                 <span>•</span>
                 <span>
-                  Msg: <strong>{messageCount}</strong>
+                  Updates: <strong>{messageCount}</strong>
                 </span>
+                {lastUpdate && (
+                  <>
+                    <span>•</span>
+                    <span>
+                      Last: <strong>{lastUpdate.toLocaleTimeString()}</strong>
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
           <div className="header-actions">
+            <button
+              onClick={onRefresh}
+              className="refresh-btn"
+              title="Refresh data now"
+            >
+              <RefreshCw size={16} />
+              <span>Refresh</span>
+            </button>
+
             <button onClick={handleLogin} className="login-btn">
               <LogIn size={16} />
               <span>Login</span>
