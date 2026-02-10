@@ -13,37 +13,96 @@ const Header = ({
     window.open("https://nifty-backend-claude.onrender.com/login", "_blank");
   };
 
-  const renderIndexSignals = (indexName) => {
-    const index = indices[indexName];
+  const calculateSignal = (option, indicator) => {
+    // If signal is already PAUSED, keep it PAUSED
+    if (option.signal === "PAUSED") {
+      return "PAUSED";
+    }
 
-    // Count options for this index
+    const { ltp, ema50, supertrend, optionType } = option;
+    const value = indicator === "ema50" ? ema50 : supertrend;
+
+    if (optionType === "CE") {
+      // For CALLS: BULL if LTP > indicator
+      return ltp > value ? "BULL" : "BEAR";
+    } else {
+      // For PUTS: BULL if LTP < indicator
+      return ltp < value ? "BULL" : "BEAR";
+    }
+  };
+
+  const renderIndexSignals = (indexName) => {
+    // Get all options for this index
     const indexOptions = Object.values(options).filter(
       (opt) => opt.name === indexName
     );
 
-    const counts = {
-      BULL: indexOptions.filter((opt) => opt.signal === "BULL").length,
-      BEAR: indexOptions.filter((opt) => opt.signal === "BEAR").length,
+    // Calculate counts for Supertrend
+    const supertrendCounts = {
+      BULL: indexOptions.filter(
+        (opt) => calculateSignal(opt, "supertrend") === "BULL"
+      ).length,
+      BEAR: indexOptions.filter(
+        (opt) => calculateSignal(opt, "supertrend") === "BEAR"
+      ).length,
+      PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
+    };
+
+    // Calculate counts for EMA50
+    const ema50Counts = {
+      BULL: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema50") === "BULL"
+      ).length,
+      BEAR: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema50") === "BEAR"
+      ).length,
       PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
     };
 
     return (
       <div className="signal-card">
         <span className="signal-label">{indexName}:</span>
-        <div className="signal-badges">
-          {["BULL", "BEAR", "PAUSED"].map((type) => {
-            const isActive = counts[type] > 0;
-            const badgeClass = isActive
-              ? `signal-badge active-${type.toLowerCase()}`
-              : "signal-badge inactive";
 
-            return (
-              <div key={type} className={badgeClass}>
-                <span>{type}</span>
-                <span className="signal-count">({counts[type]})</span>
-              </div>
-            );
-          })}
+        {/* Supertrend Row */}
+        <div className="signal-row">
+          <span className="signal-indicator">ST:</span>
+          <div className="signal-badges">
+            {["BULL", "BEAR", "PAUSED"].map((type) => {
+              const count = supertrendCounts[type];
+              const isActive = count > 0;
+              const badgeClass = isActive
+                ? `signal-badge active-${type.toLowerCase()}`
+                : "signal-badge inactive";
+
+              return (
+                <div key={`st-${type}`} className={badgeClass}>
+                  <span>{type}</span>
+                  <span className="signal-count">({count})</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* EMA50 Row */}
+        <div className="signal-row">
+          <span className="signal-indicator">EMA:</span>
+          <div className="signal-badges">
+            {["BULL", "BEAR", "PAUSED"].map((type) => {
+              const count = ema50Counts[type];
+              const isActive = count > 0;
+              const badgeClass = isActive
+                ? `signal-badge active-${type.toLowerCase()}`
+                : "signal-badge inactive";
+
+              return (
+                <div key={`ema-${type}`} className={badgeClass}>
+                  <span>{type}</span>
+                  <span className="signal-count">({count})</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
