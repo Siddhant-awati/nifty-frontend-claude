@@ -2,10 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 const CONFIG = {
   // Auto-detect environment
-  API_BASE_URL:
-    window.location.hostname === "localhost"
-      ? "http://localhost:3000"
-      : "https://nifty-backend-claude.onrender.com",
+  API_BASE_URL: "https://nifty-backend-claude.onrender.com",
 
   FETCH_INTERVAL: 30000, // 30 seconds
   RETRY_DELAY: 5000, // 5 seconds

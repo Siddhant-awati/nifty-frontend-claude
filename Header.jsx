@@ -56,7 +56,7 @@ const Header = ({
 
     return (
       <div className="signal-card">
-        <span className="signal-label">{indexName}:</span>
+        <span className="signal-label">{indexName}</span>
 
         {/* Supertrend Row */}
         <div className="signal-row">
@@ -142,7 +142,7 @@ const Header = ({
           <div className="header-actions">
             <button
               onClick={onRefresh}
-              className="refresh-btn"
+              className="refresh-btn login-btn"
               title="Refresh data now"
             >
               <RefreshCw size={16} />
