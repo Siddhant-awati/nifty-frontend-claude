@@ -427,7 +427,7 @@ body {
    MAIN CONTENT
    ============================================================ */
 .main-content {
-  padding: 5px;
+  padding: 5px 5px 30px 5px;
   max-width: 100%;
   margin: 0 auto;
 }
@@ -593,16 +593,17 @@ body {
 }
 
 .option-chain-table tbody tr {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #c4c4c4;
   transition: all 0.2s ease;
 }
 
-.option-chain-table tbody tr:nth-child(even) {
-  background: #fafafa;
+.option-chain-table tbody tr:nth-child(even),
+.option-chain-table tbody tr:nth-child(even) .strike-cell {
+  background: #feffe3;
 }
 
 .row-atm {
-  background: #dbeafe !important;
+  background: #a5ccff !important;
 }
 
 .option-cell {
@@ -874,7 +875,7 @@ button.refresh-btn {
   }
 
   .main-content {
-    padding: 5px;
+    padding: 5px 5px 30px 5px;
   }
 
   .indices-grid {
@@ -1016,6 +1017,7 @@ button.refresh-btn {
   padding: 6px;
   border-radius: 6px;
   text-align: center;
+  box-shadow: 0px 0px 5px 1px #ccc;
 }
 
 .option-field-label {

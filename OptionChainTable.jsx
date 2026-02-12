@@ -36,7 +36,7 @@ const OptionCell = ({ data, type }) => {
         <div className="option-field">
           <div className="option-field-label">Price</div>
           <div className="option-field-value option-ltp">
-            ₹{data.ltp?.toFixed(2)}
+            {data.ltp?.toFixed(2)}
           </div>
         </div>
 
