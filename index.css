@@ -295,7 +295,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 5px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   box-shadow: 0px 0px 5px 0px var(--text-muted);
@@ -763,7 +763,7 @@ button.refresh-btn {
   }
 
   .signal-card {
-    padding: 8px 12px;
+    padding: 10px;
   }
 
   .signal-row {
@@ -794,7 +794,7 @@ button.refresh-btn {
   }
 
   .signal-card {
-    padding: 8px 10px;
+    padding: 10px;
   }
 
   .signal-indicator {
@@ -1002,4 +1002,77 @@ button.refresh-btn {
   .option-chain-container {
     page-break-inside: avoid;
   }
+}
+
+/* ===== OPTION CELL GRID ===== */
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.option-field {
+  background: #f8fafc;
+  padding: 6px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.option-field-label {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.option-field-value {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* ===== PRICE ===== */
+.option-ltp {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ===== ACTION ===== */
+.action-trade {
+  background: #e6f9f0;
+  color: #059669;
+}
+
+.action-avoid {
+  background: #ffe6e6;
+  color: #dc2626;
+}
+
+.action-risky {
+  background: #fff7e6;
+  color: #d97706;
+}
+
+.action-wait {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* ===== STRENGTH ===== */
+.strength-high {
+  color: #059669;
+}
+.strength-medium {
+  color: #d97706;
+}
+.strength-low {
+  color: #dc2626;
+}
+
+/* ===== MARKET ===== */
+.market-trending {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.market-sideways {
+  background: #f1f5f9;
+  color: #64748b;
 }

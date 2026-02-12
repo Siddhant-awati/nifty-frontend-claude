@@ -13,26 +13,33 @@ const Header = ({
     window.open("https://nifty-backend-claude.onrender.com/login", "_blank");
   };
 
+  // ================= INDICATOR SIGNAL CALCULATOR =================
   const calculateSignal = (option, indicator) => {
-    const { ltp, ema50, supertrend, optionType } = option;
-    const value = indicator === "ema50" ? ema50 : supertrend;
+    const { ltp, ema50, ema200, supertrend, optionType } = option;
+
+    let value;
+    if (indicator === "ema50") value = ema50;
+    else if (indicator === "ema200") value = ema200;
+    else value = supertrend;
+
+    if (value == null) return null;
 
     if (optionType === "CE") {
-      // For CALLS: BULL if LTP > indicator
+      // CALLS → BULL if price above indicator
       return ltp > value ? "BULL" : "BEAR";
     } else {
-      // For PUTS: BULL if LTP < indicator
+      // PUTS → BULL if price below indicator
       return ltp < value ? "BULL" : "BEAR";
     }
   };
 
+  // ================= RENDER SIGNAL CARD =================
   const renderIndexSignals = (indexName) => {
-    // Get all options for this index
     const indexOptions = Object.values(options).filter(
       (opt) => opt.name === indexName
     );
 
-    // Calculate counts for Supertrend (ignore backend signal, calculate based on indicators)
+    // ---------- SUPERTREND ----------
     const supertrendCounts = {
       BULL: indexOptions.filter(
         (opt) => calculateSignal(opt, "supertrend") === "BULL"
@@ -40,10 +47,9 @@ const Header = ({
       BEAR: indexOptions.filter(
         (opt) => calculateSignal(opt, "supertrend") === "BEAR"
       ).length,
-      PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
     };
 
-    // Calculate counts for EMA50 (ignore backend signal, calculate based on indicators)
+    // ---------- EMA50 ----------
     const ema50Counts = {
       BULL: indexOptions.filter(
         (opt) => calculateSignal(opt, "ema50") === "BULL"
@@ -51,69 +57,66 @@ const Header = ({
       BEAR: indexOptions.filter(
         (opt) => calculateSignal(opt, "ema50") === "BEAR"
       ).length,
-      PAUSED: indexOptions.filter((opt) => opt.signal === "PAUSED").length,
     };
+
+    // ---------- EMA200 ----------
+    const ema200Counts = {
+      BULL: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema200") === "BULL"
+      ).length,
+      BEAR: indexOptions.filter(
+        (opt) => calculateSignal(opt, "ema200") === "BEAR"
+      ).length,
+    };
+
+    const renderIndicatorRow = (label, counts, prefix) => (
+      <div className="signal-row">
+        <span className="signal-indicator">{label}:</span>
+        <div className="signal-badges">
+          {["BULL", "BEAR"].map((type) => {
+            const count = counts[type];
+            const isActive = count > 0;
+
+            const badgeClass = isActive
+              ? `signal-badge active-${type.toLowerCase()}`
+              : "signal-badge inactive";
+
+            return (
+              <div key={`${prefix}-${type}`} className={badgeClass}>
+                <span>{type}</span>
+                <span className="signal-count">({count})</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
 
     return (
       <div className="signal-card">
-        <span className="signal-label">{indexName}</span>
+        <span className="signal-label">{indexName} - OPTIONS Direction</span>
 
-        {/* Supertrend Row */}
-        <div className="signal-row">
-          <span className="signal-indicator">SUPERTREND:</span>
-          <div className="signal-badges">
-            {["BULL", "BEAR", "PAUSED"].map((type) => {
-              const count = supertrendCounts[type];
-              const isActive = count > 0;
-              const badgeClass = isActive
-                ? `signal-badge active-${type.toLowerCase()}`
-                : "signal-badge inactive";
-
-              return (
-                <div key={`st-${type}`} className={badgeClass}>
-                  <span>{type}</span>
-                  <span className="signal-count">({count})</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* EMA50 Row */}
-        <div className="signal-row">
-          <span className="signal-indicator">EMA50:</span>
-          <div className="signal-badges">
-            {["BULL", "BEAR", "PAUSED"].map((type) => {
-              const count = ema50Counts[type];
-              const isActive = count > 0;
-              const badgeClass = isActive
-                ? `signal-badge active-${type.toLowerCase()}`
-                : "signal-badge inactive";
-
-              return (
-                <div key={`ema-${type}`} className={badgeClass}>
-                  <span>{type}</span>
-                  <span className="signal-count">({count})</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {renderIndicatorRow("SUPERTREND", supertrendCounts, "st")}
+        {renderIndicatorRow("EMA50", ema50Counts, "ema50")}
+        {renderIndicatorRow("EMA200", ema200Counts, "ema200")}
       </div>
     );
   };
 
+  // ================= UI =================
   return (
     <div className="header">
       <div className="header-content">
-        {/* Top Row: Title and Connection */}
+        {/* Top Row */}
         <div className="header-top">
           <div className="header-brand">
             <div className="brand-icon">
               <Activity size={24} color="#fff" />
             </div>
+
             <div className="brand-info">
               <h1>Trading Dashboard</h1>
+
               <div className="brand-meta">
                 <span>
                   Mode:{" "}
@@ -123,10 +126,13 @@ const Header = ({
                     {mode || "-"}
                   </strong>
                 </span>
+
                 <span>•</span>
+
                 <span>
                   Updates: <strong>{messageCount}</strong>
                 </span>
+
                 {lastUpdate && (
                   <>
                     <span>•</span>
