@@ -1153,7 +1153,7 @@ button.refresh-btn {
 .signal-table-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 16px 20px;
+  padding: 10px;
   text-align: center;
 }
 
@@ -1176,7 +1176,7 @@ button.refresh-btn {
 }
 
 .signal-count-table th {
-  padding: 14px 16px;
+  padding: 10px;
   text-align: center;
   font-weight: 800;
   color: #495057;
@@ -1204,7 +1204,7 @@ button.refresh-btn {
 }
 
 .signal-count-table td {
-  padding: 14px 16px;
+  padding: 10px;
   text-align: center;
 }
 
