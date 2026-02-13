@@ -33,7 +33,7 @@ const Header = ({
     }
   };
 
-  // ================= RENDER SIGNAL CARD =================
+  // ================= RENDER SIGNAL TABLE =================
   const renderIndexSignals = (indexName) => {
     const indexOptions = Object.values(options).filter(
       (opt) => opt.name === indexName
@@ -69,36 +69,38 @@ const Header = ({
       ).length,
     };
 
-    const renderIndicatorRow = (label, counts, prefix) => (
-      <div className="signal-row">
-        <span className="signal-indicator">{label}:</span>
-        <div className="signal-badges">
-          {["BULL", "BEAR"].map((type) => {
-            const count = counts[type];
-            const isActive = count > 0;
-
-            const badgeClass = isActive
-              ? `signal-badge active-${type.toLowerCase()}`
-              : "signal-badge inactive";
-
-            return (
-              <div key={`${prefix}-${type}`} className={badgeClass}>
-                <span>{type}</span>
-                <span className="signal-count">({count})</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-
     return (
-      <div className="signal-card">
-        <span className="signal-label">{indexName} - OPTIONS Direction</span>
+      <div className="signal-table-container">
+        <div className="signal-table-header">
+          <h3>{indexName} - OPTIONS Direction</h3>
+        </div>
 
-        {renderIndicatorRow("EMA20", ema20Counts, "ema20")}
-        {renderIndicatorRow("EMA50", ema50Counts, "ema50")}
-        {renderIndicatorRow("EMA200", ema200Counts, "ema200")}
+        <table className="signal-count-table">
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th>BULL</th>
+              <th>BEAR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="indicator-name">EMA20</td>
+              <td className="count-bull">{ema20Counts.BULL}</td>
+              <td className="count-bear">{ema20Counts.BEAR}</td>
+            </tr>
+            <tr>
+              <td className="indicator-name">EMA50</td>
+              <td className="count-bull">{ema50Counts.BULL}</td>
+              <td className="count-bear">{ema50Counts.BEAR}</td>
+            </tr>
+            <tr>
+              <td className="indicator-name">EMA200</td>
+              <td className="count-bull">{ema200Counts.BULL}</td>
+              <td className="count-bear">{ema200Counts.BEAR}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   };
@@ -171,8 +173,8 @@ const Header = ({
           </div>
         </div>
 
-        {/* Signals Grid */}
-        <div className="signals-grid">
+        {/* Signals Tables Grid */}
+        <div className="signals-tables-grid">
           {renderIndexSignals("NIFTY")}
           {renderIndexSignals("BANKNIFTY")}
           {renderIndexSignals("SENSEX")}

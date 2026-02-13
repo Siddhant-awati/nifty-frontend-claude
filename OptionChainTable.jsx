@@ -4,17 +4,31 @@ const OptionCell = ({ data, type }) => {
     return <td className="cell-empty">-</td>;
   }
 
-  // ---------- ACTION COLOR ----------
-  const getActionClass = (action) => {
-    switch (action) {
-      case "TRADE/HOLD":
-        return "action-trade";
-      case "AVOID":
-        return "action-avoid";
-      case "RISKY/CHOPPY":
-        return "action-risky";
+  // ---------- SIGNAL BACKGROUND ----------
+  const getSignalCellClass = (signal) => {
+    switch (signal) {
+      case "BULL":
+        return "cell-bull";
+      case "BEAR":
+        return "cell-bear";
+      case "PAUSED":
+        return "cell-paused";
       default:
-        return "action-wait";
+        return "";
+    }
+  };
+
+  // ---------- SIGNAL COLOR ----------
+  const getSignalClass = (signal) => {
+    switch (signal) {
+      case "BULL":
+        return "signal-bull";
+      case "BEAR":
+        return "signal-bear";
+      case "PAUSED":
+        return "signal-paused";
+      default:
+        return "signal-default";
     }
   };
 
@@ -29,26 +43,30 @@ const OptionCell = ({ data, type }) => {
   const getMarketClass = (state) =>
     state === "TRENDING" ? "market-trending" : "market-sideways";
 
+  const cellClass = `option-cell ${
+    type === "call" ? "cell-call" : "cell-put"
+  } ${getSignalCellClass(data.signal)}`;
+
   return (
-    <td className={`option-cell ${type === "call" ? "cell-call" : "cell-put"}`}>
+    <td className={cellClass}>
       <div className="option-grid">
         {/* PRICE */}
         <div className="option-field">
           <div className="option-field-label">Price</div>
           <div className="option-field-value option-ltp">
-            {data.ltp?.toFixed(2)}
+            ₹{data.ltp?.toFixed(2)}
           </div>
         </div>
 
-        {/* ACTION */}
+        {/* SIGNAL */}
         <div className="option-field">
-          <div className="option-field-label">Trade Decision</div>
+          <div className="option-field-label">Signal</div>
           <div
-            className={`option-field-value option-action ${getActionClass(
-              data.action
+            className={`option-field-value option-action ${getSignalClass(
+              data.signal
             )}`}
           >
-            {data.action || "WAIT"}
+            {data.signal}
           </div>
         </div>
 
