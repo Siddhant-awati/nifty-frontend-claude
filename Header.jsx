@@ -15,12 +15,12 @@ const Header = ({
 
   // ================= INDICATOR SIGNAL CALCULATOR =================
   const calculateSignal = (option, indicator) => {
-    const { ltp, ema50, ema200, supertrend, optionType } = option;
+    const { ltp, ema20, ema50, ema200, optionType } = option;
 
     let value;
-    if (indicator === "ema50") value = ema50;
-    else if (indicator === "ema200") value = ema200;
-    else value = supertrend;
+    if (indicator === "ema20") value = ema20;
+    else if (indicator === "ema50") value = ema50;
+    else value = ema200;
 
     if (value == null) return null;
 
@@ -39,13 +39,13 @@ const Header = ({
       (opt) => opt.name === indexName
     );
 
-    // ---------- SUPERTREND ----------
-    const supertrendCounts = {
+    // ---------- EMA20 ----------
+    const ema20Counts = {
       BULL: indexOptions.filter(
-        (opt) => calculateSignal(opt, "supertrend") === "BULL"
+        (opt) => calculateSignal(opt, "ema20") === "BULL"
       ).length,
       BEAR: indexOptions.filter(
-        (opt) => calculateSignal(opt, "supertrend") === "BEAR"
+        (opt) => calculateSignal(opt, "ema20") === "BEAR"
       ).length,
     };
 
@@ -96,7 +96,7 @@ const Header = ({
       <div className="signal-card">
         <span className="signal-label">{indexName} - OPTIONS Direction</span>
 
-        {renderIndicatorRow("SUPERTREND", supertrendCounts, "st")}
+        {renderIndicatorRow("EMA20", ema20Counts, "ema20")}
         {renderIndicatorRow("EMA50", ema50Counts, "ema50")}
         {renderIndicatorRow("EMA200", ema200Counts, "ema200")}
       </div>
