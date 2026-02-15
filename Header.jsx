@@ -33,11 +33,28 @@ const Header = ({
     }
   };
 
+  // ================= GET SIGNAL CLASS =================
+  const getSignalClass = (signal) => {
+    switch (signal) {
+      case "BULL":
+        return "signal-bull";
+      case "BEAR":
+        return "signal-bear";
+      case "PAUSED":
+        return "signal-paused";
+      default:
+        return "signal-default";
+    }
+  };
+
   // ================= RENDER SIGNAL TABLE =================
   const renderIndexSignals = (indexName) => {
     const indexOptions = Object.values(options).filter(
       (opt) => opt.name === indexName
     );
+
+    // Get index data from indices object
+    const indexData = indices[indexName];
 
     // ---------- EMA20 ----------
     const ema20Counts = {
@@ -69,20 +86,27 @@ const Header = ({
       ).length,
     };
 
+    const signalClass = indexData
+      ? getSignalClass(indexData.signal)
+      : "signal-default";
+
     return (
       <div className="signal-table-container">
         <div className="signal-table-header">
-          <h3>{indexName} - OPTIONS Direction</h3>
+          <div className="index-header-info">
+            <h2 className="index-symbol">{indexName}</h2>
+            {indexData && (
+              <>
+                <div className="index-ltp">{indexData.ltp?.toFixed(2)}</div>
+                <div className={`index-signal-badge ${signalClass}`}>
+                  {indexData.signal}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         <table className="signal-count-table">
-          <thead>
-            <tr>
-              <th>Indicator</th>
-              <th>BULL</th>
-              <th>BEAR</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
               <td className="indicator-name">EMA20</td>

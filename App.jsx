@@ -1,6 +1,5 @@
 import { useRestAPI } from "./useRestAPI";
 import Header from "./Header";
-import IndexCard from "./IndexCard";
 import OptionChainTable from "./OptionChainTable";
 
 const App = () => {
@@ -75,13 +74,6 @@ const App = () => {
       )}
 
       <div className="main-content">
-        {/* Indices Section */}
-        <div className="indices-grid">
-          <IndexCard data={niftyData} />
-          <IndexCard data={bankniftyData} />
-          <IndexCard data={sensexData} />
-        </div>
-
         {/* Option Chains Section */}
         <div className="option-chains-grid">
           <OptionChainTable
