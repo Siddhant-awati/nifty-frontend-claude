@@ -211,15 +211,38 @@ body {
   font-size: 20px;
   font-weight: bold;
   color: var(--text-primary);
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 .brand-meta {
   font-size: 14px;
   color: var(--text-secondary);
   display: flex;
-  gap: 12px;
+  gap: 20px;
   align-items: center;
+}
+
+.percentage-label {
+  font-weight: 800;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  min-width: 140px;
+  text-align: center;
+}
+
+.bull-percentage {
+  background: linear-gradient(135deg, #d4f5e9 0%, #b8f5d8 100%);
+  color: #047857;
+  border: 1.5px solid #10b981;
+  box-shadow: 0px 0px 5px 1px #10b981;
+}
+
+.bear-percentage {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  color: #be123c;
+  border: 1.5px solid #f43f5e;
+  box-shadow: 0px 0px 5px 1px #f43f5e;
 }
 
 .mode-badge {
@@ -824,7 +847,7 @@ button.refresh-btn {
   }
 
   .brand-info h1 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .brand-meta {

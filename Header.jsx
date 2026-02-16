@@ -47,6 +47,49 @@ const Header = ({
     }
   };
 
+  // ================= CALCULATE OVERALL PERCENTAGES =================
+  const calculateOverallPercentages = () => {
+    const allOptions = Object.values(options);
+
+    let totalBullCount = 0;
+    let totalBearCount = 0;
+
+    // Count all BULL and BEAR signals across all indicators (EMA20, EMA50, EMA200)
+    allOptions.forEach((option) => {
+      // EMA20
+      const ema20Signal = calculateSignal(option, "ema20");
+      if (ema20Signal === "BULL") totalBullCount++;
+      else if (ema20Signal === "BEAR") totalBearCount++;
+
+      // EMA50
+      const ema50Signal = calculateSignal(option, "ema50");
+      if (ema50Signal === "BULL") totalBullCount++;
+      else if (ema50Signal === "BEAR") totalBearCount++;
+
+      // EMA200
+      const ema200Signal = calculateSignal(option, "ema200");
+      if (ema200Signal === "BULL") totalBullCount++;
+      else if (ema200Signal === "BEAR") totalBearCount++;
+    });
+
+    const totalCount = totalBullCount + totalBearCount;
+
+    const bullPercentage =
+      totalCount > 0 ? ((totalBullCount / totalCount) * 100).toFixed(1) : 0;
+    const bearPercentage =
+      totalCount > 0 ? ((totalBearCount / totalCount) * 100).toFixed(1) : 0;
+
+    return {
+      bullPercentage,
+      bearPercentage,
+      totalBullCount,
+      totalBearCount,
+      totalCount,
+    };
+  };
+
+  const overallStats = calculateOverallPercentages();
+
   // ================= RENDER SIGNAL TABLE =================
   const renderIndexSignals = (indexName) => {
     const indexOptions = Object.values(options).filter(
@@ -144,29 +187,13 @@ const Header = ({
               <h1>Trading Dashboard</h1>
 
               <div className="brand-meta">
-                <span>
-                  Mode:{" "}
-                  <strong
-                    className={mode === "LIVE" ? "mode-live" : "mode-test"}
-                  >
-                    {mode || "-"}
-                  </strong>
+                <span className="percentage-label bull-percentage">
+                  BULL: <strong>{overallStats.bullPercentage}%</strong>
                 </span>
 
-                <span>•</span>
-
-                <span>
-                  Updates: <strong>{messageCount}</strong>
+                <span className="percentage-label bear-percentage">
+                  BEAR: <strong>{overallStats.bearPercentage}%</strong>
                 </span>
-
-                {lastUpdate && (
-                  <>
-                    <span>•</span>
-                    <span>
-                      Last: <strong>{lastUpdate.toLocaleTimeString()}</strong>
-                    </span>
-                  </>
-                )}
               </div>
             </div>
           </div>
