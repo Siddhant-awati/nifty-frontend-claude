@@ -976,7 +976,7 @@ button.refresh-btn {
   .index-symbol,
   .index-ltp {
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
 }
 
@@ -1009,11 +1009,6 @@ button.refresh-btn {
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
-}
-
-.option-field:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .option-field-label {
@@ -1184,7 +1179,7 @@ button.refresh-btn {
 .index-header-info {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 5px;
 }
 
@@ -1194,7 +1189,7 @@ button.refresh-btn {
   color: white;
   margin: 0;
   min-width: auto;
-  min-width: 150px;
+  min-width: 120px;
 }
 
 .index-header-info .index-ltp {
@@ -1204,19 +1199,20 @@ button.refresh-btn {
   padding: 4px 12px;
   background: #000;
   border-radius: 8px;
-  min-width: auto;
+  min-width: 140px;
+  max-width: 200px;
+  text-align: center;
 }
 
 .index-header-info .index-signal-badge {
-  padding: 6px 14px;
+  padding: 6px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  min-width: 70px;
-  text-align: center;
+  min-width: 100px;
 }
 
 /* Count Table Styles */
@@ -1246,10 +1242,6 @@ button.refresh-btn {
   transition: background-color 0.2s;
 }
 
-.signal-count-table tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
 .signal-count-table tbody tr:last-child {
   border-bottom: none;
 }
@@ -1257,6 +1249,7 @@ button.refresh-btn {
 .signal-count-table td {
   padding: 10px;
   text-align: center;
+  min-width: 70px;
 }
 
 /* Indicator Name Column */
@@ -1269,21 +1262,14 @@ button.refresh-btn {
 /* Count Columns */
 .count-bull {
   font-weight: 700;
-  color: #28a745;
+  color: #ffffff;
   font-size: 15px;
-  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  background: #008b00;
 }
 
 .count-bear {
   font-weight: 700;
-  color: #dc3545;
+  color: #ffffff;
   font-size: 15px;
-  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-}
-
-/* Hover effect on count cells */
-.count-bull:hover,
-.count-bear:hover {
-  transform: scale(1.05);
-  cursor: pointer;
+  background: #ff0000;
 }
