@@ -463,7 +463,7 @@ body {
   padding: 5px 5px 30px 5px;
   max-width: 100%;
   margin: 0 auto;
-  background-color: #ffa20561;
+  background-color: #ffa205;
 }
 
 /* ============================================================
@@ -549,7 +549,7 @@ body {
 .option-chains-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 5px;
 }
 
 .option-chain-container {
@@ -569,13 +569,14 @@ body {
 }
 
 .option-chain-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  text-shadow: 0px 1px;
 }
 
 .spot-info {
@@ -604,10 +605,11 @@ body {
   padding: 12px 8px;
   text-align: center;
   font-weight: 800;
-  font-size: 14px;
+  font-size: 18px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   font-family: monospace;
+  text-shadow: 0px 1px;
 }
 
 .th-call {
@@ -934,7 +936,7 @@ button.refresh-btn {
 
   .option-chain-table th {
     padding: 10px 8px;
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 2px;
   }
 
@@ -1295,4 +1297,78 @@ button.refresh-btn {
   color: #ffffff;
   font-size: 15px;
   background: #ff0000;
+}
+
+.chain-summary-bar {
+  display: flex;
+  align-items: stretch;
+  background: #f8f9fc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin: 0 0 12px 0;
+  overflow: hidden;
+}
+
+.summary-side {
+  flex: 1;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-call {
+  background: #e2ffea;
+}
+.summary-put {
+  background: #ffe5e5;
+}
+
+.summary-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.summary-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-stat-label {
+  font-size: 11px;
+  color: #0070ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.summary-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  padding: 5px;
+}
+
+.summary-price {
+  color: #2d3748;
+}
+
+.summary-divider {
+  width: 1px;
+  height: 36px;
+  background: #b0b0b0;
+}
+
+.summary-center-divider {
+  width: 1px;
+  background: #e2e8f0;
 }

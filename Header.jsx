@@ -152,12 +152,12 @@ const Header = ({
         <table className="signal-count-table">
           <tbody>
             <tr>
-              <td className="indicator-name">EMA20</td>
+              <td className="indicator-name">EMA50</td>
               <td className="count-bull">{ema20Counts.BULL}</td>
               <td className="count-bear">{ema20Counts.BEAR}</td>
             </tr>
             <tr>
-              <td className="indicator-name">EMA50</td>
+              <td className="indicator-name">EMA100</td>
               <td className="count-bull">{ema50Counts.BULL}</td>
               <td className="count-bear">{ema50Counts.BEAR}</td>
             </tr>
